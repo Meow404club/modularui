@@ -14,7 +14,7 @@
 | 仅 1.20.1 存在（src/forgeMain） | 33 | 原文 |
 | 仅 1.21.1 存在（src/neoforgeMain） | 29 | 原文 |
 
-重放程序：`git checkout <基线> -- third-party/modularui/src` → `tools/gen-forks.py --apply`（自动面）→ 回放 §3 手工 hunk 与 §1 构建级偏离。
+重放程序（2026-09-07 P23 拆独立仓后在本 modularui 子仓根执行；基线=子仓 main 底提交 6cb2e813442359fdc869da4836e2bcae1a6dd2e3，即 subtree split 底=上游快照导入）：`git checkout <子仓基线> -- src` → `tools/gen-forks.py --apply`（自动面）→ 回放 §3 手工 hunk 与 §1 构建级偏离。
 
 ## §1 构建级偏离（非上游文件，全部为本仓原创或声明改动）
 

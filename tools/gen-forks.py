@@ -26,8 +26,10 @@
   forge 腿内容行含 `*/` 的 hunk（会提前终止包裹）保留 b 形不包，列 MANUAL 清单手工 chisel。
 
 纪律：本工具只动 src/main/java 与两个单腿 java 目录；资源树与手写偏离（DIVERGE.md §3）
-不归它管。重放顺序：git checkout <vendored 基线> -- third-party/modularui/src → 跑本工具
---apply → 回放 MANUAL 清单与手写偏离。
+不归它管。重放顺序（2026-09-07 P23 拆独立仓后，在本 modularui 子仓根执行）：
+git checkout <子仓基线> -- src → 跑本工具 --apply → 回放 MANUAL 清单与手写偏离。
+子仓基线 = 子仓 main 底提交 6cb2e813442359fdc869da4836e2bcae1a6dd2e3
+（subtree split 底 = 上游快照导入 commit；重 vendored 后 gitlog 底会变，以当时 main 底为准）。
 """
 import argparse
 import difflib
