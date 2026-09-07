@@ -1,0 +1,6 @@
+# Gradle 构建产物与守护进程状态（拆独立仓后自带；此前靠主仓根 .gitignore 全局规则）
+build/
+.gradle/
+
+# run 目录（本仓不引入 runs，防御性保留——P20 裁决 modularui 是被 jarJar 嵌装的库 mod）
+run/
