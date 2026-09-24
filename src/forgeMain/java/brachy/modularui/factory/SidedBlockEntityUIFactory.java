@@ -25,7 +25,7 @@ public class SidedBlockEntityUIFactory extends AbstractUIFactory<SidedPosGuiData
                                                                           Direction facing) {
         Objects.requireNonNull(player);
         Objects.requireNonNull(facing);
-        BlockEntityUIFactory.verifyBlockEntity(MCHelper.getPlayer(), blockEntity);
+        BlockEntityUIFactory.verifyBlockEntity(player, blockEntity);
         BlockPos pos = blockEntity.getBlockPos();
         SidedPosGuiData data = new SidedPosGuiData(player, pos, facing);
         GuiManager.open(this, data, (ServerPlayer) player);

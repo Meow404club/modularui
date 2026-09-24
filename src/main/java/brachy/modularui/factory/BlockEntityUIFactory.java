@@ -35,7 +35,7 @@ public class BlockEntityUIFactory extends AbstractUIFactory<PosGuiData> {
 
     public <T extends BlockEntity & IUIHolder<PosGuiData>> void open(Player player, T blockEntity) {
         Objects.requireNonNull(player);
-        verifyBlockEntity(MCHelper.getPlayer(), blockEntity);
+        verifyBlockEntity(player, blockEntity);
         BlockPos pos = blockEntity.getBlockPos();
         PosGuiData data = new PosGuiData(player, pos);
         GuiManager.open(this, data, (ServerPlayer) player);
