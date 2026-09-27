@@ -29,6 +29,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.library.gui.ingredients.ICycler;
+import mezz.jei.library.gui.ingredients.RecipeSlotIngredients;
 import mezz.jei.library.gui.recipes.OutputSlotTooltipCallback;
 import mezz.jei.library.ingredients.DisplayIngredientAcceptor;
 import org.jetbrains.annotations.ApiStatus;
@@ -36,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -128,14 +130,16 @@ public class JeiRecipeViewerSlot<I, T> extends RecipeViewerSlotWidget<I, JeiReci
                 .map(this.renderMappingFunction)
                 .toList());
 
-        List<Optional<ITypedIngredient<?>>> allIngredients = ingredients.getAllIngredients();
+        List<@Nullable ITypedIngredient<?>> allIngredients = ingredients.getAllIngredients();
 
         // recipeSlot is the same object as this.slotWidget
         // noinspection DataFlowIssue
         if (!slotWidget.isEmpty()) {
             // check if the slot's ingredients are the same as our new ones and skip replacing them if so
             // this lets us optimize lookup by not parsing the focused ingredients if possible
-            Set<ITypedIngredient<?>> newIngredients = allIngredients.stream().flatMap(Optional::stream).collect(Collectors.toSet());
+            Set<ITypedIngredient<?>> newIngredients = allIngredients.stream()
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
             slotWidget.getAllIngredients().forEach(newIngredients::remove);
 
             // every ingredient was removed -> the ingredient lists are equal
@@ -145,20 +149,25 @@ public class JeiRecipeViewerSlot<I, T> extends RecipeViewerSlotWidget<I, JeiReci
         }
 
         IntSet focusMatches = ingredients.getMatches(this.focuses, ingredientRole);
-        List<Optional<ITypedIngredient<?>>> focusedIngredients = null;
+        List<@Nullable ITypedIngredient<?>> focusedIngredients = null;
         if (!focusMatches.isEmpty()) {
             focusedIngredients = new ArrayList<>();
             for (IntIterator iterator = focusMatches.iterator(); iterator.hasNext(); ) {
                 int i = iterator.nextInt();
                 if (i < allIngredients.size()) {
-                    Optional<ITypedIngredient<?>> ingredient = allIngredients.get(i);
-                    focusedIngredients.add(ingredient);
+                    focusedIngredients.add(allIngredients.get(i));
                 }
             }
         }
 
-        recipeSlot.modularui$setAllIngredients(allIngredients);
-        recipeSlot.modularui$setDisplayIngredients(focusedIngredients);
+        // JEI 15.56+: the slot's ingredients live in an immutable RecipeSlotIngredients holder.
+        // Swap it as a whole (same wiring as the RecipeSlot constructor) and then invalidate
+        // the slot's lazily cached candidates/tooltips/tag badge, mirroring onDisplayOverridesChanged.
+        recipeSlot.modularui$setIngredients(new RecipeSlotIngredients(
+                allIngredients,
+                focusedIngredients,
+                recipeSlot::modularui$onDisplayOverridesChanged));
+        recipeSlot.modularui$onDisplayOverridesChanged();
     }
 
     @Override

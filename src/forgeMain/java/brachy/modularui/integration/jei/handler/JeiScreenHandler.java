@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import mezz.jei.api.gui.builder.IClickableIngredientFactory;
 import mezz.jei.api.gui.handlers.IGhostIngredientHandler;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.gui.handlers.IGuiProperties;
@@ -144,6 +145,17 @@ public class JeiScreenHandler<T extends Screen & IMuiScreen> extends RecipeViewe
         public void register(IGuiHandlerRegistration registry) {
             super.register(registry);
             registry.addGuiContainerHandler(this.clazz, this);
+        }
+
+        /**
+         * JEI 15.37.0+ added the factory-based 4-arg overload to both {@code IScreenHandler} and
+         * {@code IGuiContainerHandler} with differently-typed defaults, which javac rejects as
+         * unrelated defaults when a class implements both. Resolve the diamond by delegating to
+         * the 3-arg override below, mirroring {@code IGuiContainerHandler}'s own default body.
+         */
+        @Override
+        public Optional<IClickableIngredient<?>> getClickableIngredientUnderMouse(IClickableIngredientFactory factory, T containerScreen, double mouseX, double mouseY) {
+            return getClickableIngredientUnderMouse(containerScreen, mouseX, mouseY);
         }
 
         @Override
