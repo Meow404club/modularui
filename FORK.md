@@ -48,8 +48,21 @@ probe 成本：settings.gradle.kts +22 行（第二 `create()` 段含注释头�
 ./gradlew :third-party:modularui:1.20.1-forge:compileJava --no-build-cache      # 回向腿（swap+//? 处理后）
 ```
 
-## 5. 跟随上游（ADR §2 对冲姿势）
+## 5. 跟随上游（ADR §2 对冲姿势；2026-10-01 升级）
 
-跟随事件 = GTCEu 换钉版（监视 maven.gtceu.com 两 artifact 的 maven-metadata.xml）。动作 =
-重 vendored 新基线 + `tools/gen-forks.py` 从双腿快照重生成 `//?` 分叉 + 重放 DIVERGE.md 手写偏离。
-无 git merge（两仓无共同历史语义）。
+**fork 关系现为 git 事实**：2026-10-01 历史修复后，本仓 main 根提交嫁接于上游
+1.21.1@c13e141（`git log` 可见上游完整 260 提交史，含 LICENSE 原始落库），不再是 squash 孤根。
+备份 ref `backup/pre-rewrite-20261001` 留存修复前的 squash 史（根 6cb2e81，尖端 ec524db）。
+
+跟随策略从"重 vendored + 重放补丁"升级为**可 git merge**：
+
+```bash
+git fetch upstream 1.21.1
+git merge upstream/1.21.1   # 共同历史语义已成立（父=c13e141）
+```
+
+`tools/gen-forks.py` 双腿快照重生成 `//?` 分叉降级为 merge 冲突时的辅助手段；
+DIVERGE.md 手写偏离台账在 merge 后仍须人工核对重放。
+
+**1.20.1@909cda2 副基线说明保留**：forge 回向腿的原文快照仍取自该提交（stonecutter 双腿
+语义，仅文档记载，不进 git 父线——见 THIRD_PARTY.md）。
