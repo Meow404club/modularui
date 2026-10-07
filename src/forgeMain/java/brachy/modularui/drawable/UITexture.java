@@ -117,7 +117,7 @@ public class UITexture implements IDrawable {
         if (png || textures) {
             String path = location.getPath();
             path = png ? (textures ? TEXTURES_PREFIX + path + PNG_SUFFIX : path + PNG_SUFFIX) : TEXTURES_PREFIX + path;
-            location = new ResourceLocation(location.getNamespace(), path);
+            location = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), path);
         }
         this.location = location;
         this.u0 = u0;
@@ -137,11 +137,11 @@ public class UITexture implements IDrawable {
     }
 
     public static UITexture fullImage(String location) {
-        return fullImage(new ResourceLocation(location), null);
+        return fullImage(ResourceLocation.parse(location), null);
     }
 
     public static UITexture fullImage(String mod, String location) {
-        return fullImage(new ResourceLocation(mod, location), null);
+        return fullImage(ResourceLocation.fromNamespaceAndPath(mod, location), null);
     }
 
     public static UITexture fullImage(ResourceLocation location, ColorType colorType) {
@@ -149,11 +149,11 @@ public class UITexture implements IDrawable {
     }
 
     public static UITexture fullImage(String location, ColorType colorType) {
-        return fullImage(new ResourceLocation(location), colorType);
+        return fullImage(ResourceLocation.parse(location), colorType);
     }
 
     public static UITexture fullImage(String mod, String location, ColorType colorType) {
-        return fullImage(new ResourceLocation(mod, location), colorType);
+        return fullImage(ResourceLocation.fromNamespaceAndPath(mod, location), colorType);
     }
 
     public UITexture register(String name) {
@@ -317,7 +317,7 @@ public class UITexture implements IDrawable {
          * @param path path of the image to draw
          */
         public Builder location(String mod, String path) {
-            this.location = new ResourceLocation(mod, path);
+            this.location = ResourceLocation.fromNamespaceAndPath(mod, path);
             return this;
         }
 
@@ -325,7 +325,7 @@ public class UITexture implements IDrawable {
          * @param path path of the image to draw in minecraft asset folder
          */
         public Builder location(String path) {
-            this.location = new ResourceLocation(path);
+            this.location = ResourceLocation.parse(path);
             return this;
         }
 

@@ -30,7 +30,7 @@ public class ModularUI {
 
     public static final String MOD_ID = "modularui";
     public static final String NAME = "ModularUI";
-    private static final ResourceLocation TEMPLATE_LOCATION = new ResourceLocation(MOD_ID, "");
+    private static final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
 
     public static final Logger LOGGER = LogManager.getLogger(NAME);
     public static final boolean UNIT_TEST = Boolean.getBoolean("unit.testing");
@@ -46,7 +46,7 @@ public class ModularUI {
 
         int i = path.indexOf(':');
         if (i > 0) {
-            return new ResourceLocation(path);
+            return ResourceLocation.parse(path);
         } else if (i == 0) {
             path = path.substring(i + 1);
         }

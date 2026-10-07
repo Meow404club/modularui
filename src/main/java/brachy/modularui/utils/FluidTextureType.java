@@ -32,7 +32,7 @@ public enum FluidTextureType {
     //? if neoforge {
     private static final ResourceLocation WATER_STILL = ResourceLocation.withDefaultNamespace("block/water_still");
     //?} else {
-    /*    private static final ResourceLocation WATER_STILL = new ResourceLocation("minecraft", "block/water_still");
+    /*    private static final ResourceLocation WATER_STILL = ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still");
     *///?}
 
     private final BiFunction<IClientFluidTypeExtensions, FluidStack, ResourceLocation> mapper;

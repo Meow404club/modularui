@@ -100,7 +100,7 @@ public class ThemeManager extends SimplePreparableReloadListener<Map<String, Lis
             for (Resource resource : resourceManager
                     .getResourceStack(ResourceLocation.fromNamespaceAndPath(namespace, THEMES_PATH))) {
             //?} else {
-            /*            for (Resource resource : resourceManager.getResourceStack(new ResourceLocation(namespace, THEMES_PATH))) {
+            /*            for (Resource resource : resourceManager.getResourceStack(ResourceLocation.fromNamespaceAndPath(namespace, THEMES_PATH))) {
             *///?}
                 profiler.push(resource.sourcePackId());
                 themeJsonSources.add(resource.sourcePackId());
@@ -135,7 +135,7 @@ public class ThemeManager extends SimplePreparableReloadListener<Map<String, Lis
                             //? if neoforge {
                             .add(ResourceLocation.parse(entry.getValue().getAsString()));
                             //?} else {
-                            /*                            .add(new ResourceLocation(entry.getValue().getAsString()));
+                            /*                            .add(ResourceLocation.parse(entry.getValue().getAsString()));
                             *///?}
                 }
                 profiler.pop();

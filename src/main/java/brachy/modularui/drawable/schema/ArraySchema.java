@@ -192,7 +192,7 @@ public class ArraySchema implements ISchema {
             //? if neoforge {
             return where(c, ResourceLocation.tryParse(registryName));
             //?} else {
-            /*            return where(c, new ResourceLocation(registryName));
+            /*            return where(c, ResourceLocation.parse(registryName));
             *///?}
         }
 

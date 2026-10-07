@@ -644,7 +644,7 @@ public class ModularScreen implements Renderable {
      * @see #getName()
      */
     public ResourceLocation getResourceLocation() {
-        return new ResourceLocation(this.owner, this.name);
+        return ResourceLocation.fromNamespaceAndPath(this.owner, this.name);
     }
 
     public ModularSyncManager getSyncManager() {
