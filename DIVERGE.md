@@ -14,7 +14,9 @@
 | 仅 1.20.1 存在（src/forgeMain） | 33 | 原文 |
 | 仅 1.21.1 存在（src/neoforgeMain） | 29 | 原文 |
 
-重放程序（2026-09-07 P23 拆独立仓后在本 modularui 子仓根执行；基线=子仓 main 底提交 6cb2e813442359fdc869da4836e2bcae1a6dd2e3，即 subtree split 底=上游快照导入）：`git checkout <子仓基线> -- src` → `tools/gen-forks.py --apply`（自动面）→ 回放 §3 手工 hunk 与 §1 构建级偏离。
+重放程序（2026-09-07 P23 拆独立仓后在本 modularui 子仓根执行；基线=子仓 main 底提交 6cb2e813442359fdc869da4836e2bcae1a6dd2e3，即 subtree split 底=上游快照导入）：`git checkout <子仓基线> -- src` → `tools/gen-forks.py --apply`（自动面）→ 回放 §3 手工 hunk 与 §1 构建级偏离 → **回放 §7 lint sweep**（2026-10-07 起；37 文件零行为，git merge 上游时这些行取 ours）。
+
+> §7 计数注：lint sweep 触碰的 24 个 src/main 文件按其原属类别（零改 232 / hunk 132 / 注释形 7）各自叠加注解或臂内代码行，§0 各行文件数不变——类别归属仍按结构性分叉判定，注解级漂移不改变类别（详 §7）。
 
 ## §1 构建级偏离（非上游文件，全部为本仓原创或声明改动）
 
@@ -401,3 +403,46 @@
 - `brachy/modularui/utils/RegistryAccessContainer.java`
 - `brachy/modularui/utils/sides/ClientCallWrapper.java`
 - `brachy/modularui/utils/sides/SidedAccessHelper.java`
+
+## §7 lint sweep（2026-10-07，task modularui-lint-cleanup；37 文件零行为）
+
+`-Xlint:all` 零行为清理波（策略=主仓 mdk 卡 41d1a526ea：可推导的机械修复，
+固有型窄域 `@SuppressWarnings`+理由注释，行为敏感面不动归主仓
+`docs/compile-warnings-exemptions.md` modularui 段）。警告数：forge 80→27 /
+neo 145→109。**全部改动泛型擦除等价或注解级，零字节码行为变更**；
+RL ctor→平台工厂（parse/fromNamespaceAndPath）为 forge backport 1:1 委托
+（mdk 卡 562c2248 同证据）。上游同步（FORK.md §5 git merge）冲突时这些
+行取 ours 并保持注释理由完整。
+
+文件清单（24 src/main + 10 forgeMain + 3 neoforgeMain）：
+
+- 机械修复面：`Wait`（extends BaseAnimator<Wait>）、`ParallelAnimator`
+  （instanceof BaseAnimator<?>×2）、`MutableSingletonList#addAll`
+  （instanceof List<? extends T> 去 (T) 强转，含 forge 臂内同行）、`DAM`
+  （neoforgeMain，冗余 (double) cast×2）、RL ctor 14 站点
+  （ArraySchema/ThemeManager×2/FluidTextureType=//? forge 臂内；
+  UITexture×7/ModularUI×2/ModularScreen=forgeMain）；
+  serialUID：`IMathValue$EvaluateException`/`WidgetThemeMap`（serialver
+  azul-21 实证）/`ObjectList$ObjectArrayList`（azul-17，forgeMain）。
+- 窄域注解面（@SuppressWarnings + 理由）：`IAnimatable#animator`、
+  `ITreeNode#visitAllChildrenBFS`、`ThemeBuilder#getThis`、
+  `WidgetThemeKey#createSubKey`、`MutableSingletonList#toArray`、
+  `CodecUtil`（chainedCodec/codecOf varargs 透传 + optionsDecoder）、
+  `TreeUtil$NodeInfo#of`、`ConstValue/DynamicValue/ObjectValue(×4)/
+  AbstractGenericSyncValue(×2)/GenericCollectionSyncHandler#getSelf/
+  GenericList|Map|SetSyncHandler#getValueType`（getClass 与 Class 字面量
+  idiom）、`ISyncRegistrar#bindPlayerInventory`、
+  `AbstractParentWidget#visitTransformChildren`、
+  `AbstractMenuButton`（forEachSiblingMenuButton/checkClose，Class<Menu>
+  字面量不可表达 Class<Menu<?>>）、`SortableListWidget$Item#onInit`、
+  `MUIDraggableStackVisitor#acceptDraggedStack`、`DropdownWidget#options`
+  （非 final 公开 API 不能 @SafeVarargs）、`JeiScreenHandler`（双腿
+  register/getClickableIngredientUnderMouse）、`OpenGuiPacket`（双腿
+  构造/decode，registry 擦除查找）。
+- 豁免不动面（归主仓台账）：this-escape 82（neo，JDK-21 构造序面）、
+  deprecation 29（BuiltInRegistries×7/IThemeApi×4/LevelReader×4/
+  RecipeScreenRenderingUtil×5/FluidStack.holder×2/RenderSystem×2 等）、
+  removal 15（loader 注入缝×3+JEI×8+NeoForge 事件×1+FluidStack.
+  isFluidEqual×3）、PanelSyncManager 裸返回值 rawtypes×2（公开 API 面
+  收窄有下游源码兼容风险）、try/overrides/overloads/fallthrough 各×2
+  （修复即行为变更）。
