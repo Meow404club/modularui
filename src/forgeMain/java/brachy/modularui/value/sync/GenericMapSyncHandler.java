@@ -122,6 +122,7 @@ public class GenericMapSyncHandler<K, V> extends ValueSyncHandler<Map<K, V>, Gen
     }
 
     @Override
+    @SuppressWarnings("unchecked") // Class literal idiom: Map.class cannot express Class<Map<K, V>>
     public Class<Map<K, V>> getValueType() {
         return (Class<Map<K, V>>) (Object) Map.class;
     }

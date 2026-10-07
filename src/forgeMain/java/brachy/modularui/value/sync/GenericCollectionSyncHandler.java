@@ -144,6 +144,7 @@ public abstract class GenericCollectionSyncHandler<T, C extends Collection<T>, S
             return copy(ICopy.immutable());
         }
 
+        @SuppressWarnings("unchecked") // (B) this self-type idiom, erased at runtime
         protected B getSelf() {
             return (B) this;
         }

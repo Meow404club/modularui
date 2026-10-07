@@ -62,6 +62,7 @@ public class GenericListSyncHandler<T> extends GenericCollectionSyncHandler<T, L
     }
 
     @Override
+    @SuppressWarnings("unchecked") // Class literal idiom: List.class cannot express Class<List<T>>
     public Class<List<T>> getValueType() {
         return (Class<List<T>>) (Object) List.class;
     }

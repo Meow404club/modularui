@@ -57,6 +57,7 @@ public class GenericSetSyncHandler<T> extends GenericCollectionSyncHandler<T, Se
     }
 
     @Override
+    @SuppressWarnings("unchecked") // Class literal idiom: Set.class cannot express Class<Set<T>>
     public Class<Set<T>> getValueType() {
         return (Class<Set<T>>) (Object) Set.class;
     }
