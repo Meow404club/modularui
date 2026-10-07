@@ -41,6 +41,7 @@ public class MUIDraggableStackVisitor<T extends Screen & IMuiScreen> implements 
     }
 
     @Override
+    @SuppressWarnings("unchecked") // slot ingredient type matched by converter class at runtime
     public DraggedAcceptorResult acceptDraggedStack(DraggingContext<T> context,
                                                     DraggableStack stack) {
         List<GhostIngredientSlot<?>> ghostSlots = context.getScreen().screen().getContext()

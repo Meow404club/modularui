@@ -172,6 +172,7 @@ public class DropdownWidget<T, W extends DropdownWidget<T, W>> extends AbstractM
      * @param options selectable options
      * @return this
      */
+    @SuppressWarnings("unchecked") // read-only varargs use; public non-final API cannot take @SafeVarargs
     public W options(T... options) {
         this.values.addAll(Arrays.asList(options));
         return getThis();

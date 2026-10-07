@@ -186,6 +186,7 @@ public abstract class AbstractMenuButton<W extends AbstractMenuButton<W>> extend
         }
     }
 
+    @SuppressWarnings("unchecked") // Class<Menu> literal cannot express Class<Menu<?>>, erased lookup
     protected boolean forEachSiblingMenuButton(Predicate<AbstractMenuButton<?>> test) {
         Menu<?> menuParent = WidgetTree.findParent(this, Menu.class);
         if (menuParent != null) {
@@ -201,6 +202,7 @@ public abstract class AbstractMenuButton<W extends AbstractMenuButton<W>> extend
         checkClose(true, true);
     }
 
+    @SuppressWarnings("unchecked") // Class<Menu> literal cannot express Class<Menu<?>>, erased lookup
     protected void checkClose(boolean soft, boolean requireNoHover) {
         if ((this.openOnHover || !soft) && !isSelfOrChildHovered()) {
             closeMenu(soft);

@@ -68,6 +68,7 @@ public class WidgetThemeKey<T extends WidgetTheme> implements Comparable<WidgetT
         return createSubKey(subName, null, null);
     }
 
+    @SuppressWarnings("unchecked") // wildcard registry value, type equality runtime-checked above
     public WidgetThemeKey<T> createSubKey(String subName, @Nullable T defaultValue, @Nullable T defaultHoverValue) {
         WidgetThemeKey<?> existing = KEYS.get(getName() + ":" + subName);
         if (existing != null) {

@@ -25,6 +25,7 @@ public class ObjectValue<T> implements IValue<T> {
     }
 
     @Deprecated
+    @SuppressWarnings("unchecked") // getClass() runtime type of the stored T value
     public ObjectValue(T value) {
         this.type = value != null ? (Class<T>) value.getClass() : null;
         this.value = value;
@@ -41,6 +42,7 @@ public class ObjectValue<T> implements IValue<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked") // getClass() runtime type of the stored T value
     public Class<T> getValueType() {
         return this.type != null ? this.type : (Class<T>) this.value.getClass();
     }
@@ -58,6 +60,7 @@ public class ObjectValue<T> implements IValue<T> {
         }
 
         @Deprecated
+        @SuppressWarnings("unchecked") // getClass() runtime type of the supplied T value
         public Dynamic(Supplier<T> getter, Consumer<T> setter) {
             this.getter = getter;
             this.setter = setter;
@@ -76,6 +79,7 @@ public class ObjectValue<T> implements IValue<T> {
         }
 
         @Override
+        @SuppressWarnings("unchecked") // getClass() runtime type of the supplied T value
         public Class<T> getValueType() {
             return this.type != null ? this.type : (Class<T>) this.getter.get().getClass();
         }

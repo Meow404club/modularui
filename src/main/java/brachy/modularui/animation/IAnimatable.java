@@ -12,6 +12,7 @@ public interface IAnimatable<T extends IAnimatable<T>> {
         return !equals(target);
     }
 
+    @SuppressWarnings("unchecked") // (T) this self-type idiom, erased at runtime
     default MutableObjectAnimator<T> animator(T target) {
         T self = (T) this;
         return new MutableObjectAnimator<>(self, self.copyOrImmutable(), target);

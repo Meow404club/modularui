@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(fluent = true, chain = true)
-public class Wait extends BaseAnimator {
+public class Wait extends BaseAnimator<Wait> {
 
     @Setter
     private int duration;

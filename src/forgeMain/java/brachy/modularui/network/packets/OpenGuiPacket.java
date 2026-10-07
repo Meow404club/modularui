@@ -23,6 +23,7 @@ public class OpenGuiPacket<T extends GuiData> implements NetworkHandler.INetPack
     private UIFactory<T> factory;
     private FriendlyByteBuf data;
 
+    @SuppressWarnings("unchecked") // factory registry is id-keyed and erased, T bound by sender
     public OpenGuiPacket(FriendlyByteBuf buf) {
         this.windowId = buf.readVarInt();
         this.networkId = buf.readVarInt();

@@ -50,6 +50,7 @@ public class JeiScreenHandler<T extends Screen & IMuiScreen> extends RecipeViewe
         this.clazz = clazz;
     }
 
+    @SuppressWarnings("unchecked") // isAssignableFrom runtime check precedes the cross-cast
     public static <T extends Screen & IMuiScreen, M extends AbstractContainerMenu,
             T2 extends AbstractContainerScreen<M> & IMuiScreen> void register(Class<T> clazz,
                                                                               IGuiHandlerRegistration registration) {
@@ -167,6 +168,7 @@ public class JeiScreenHandler<T extends Screen & IMuiScreen> extends RecipeViewe
         }
 
         @Override
+        @SuppressWarnings("unchecked") // Optional invariance: element type is IClickableIngredient<?> by construction
         public @NotNull Optional<IClickableIngredient<?>> getClickableIngredientUnderMouse(T screen, double mouseX, double mouseY) {
             IWidget hovered = screen.screen().getContext().getTopHovered();
             if (hovered instanceof IngredientProvider<?> provider) {

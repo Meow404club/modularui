@@ -24,6 +24,7 @@ public class ThemeBuilder<B extends ThemeBuilder<B>> extends JsonBuilder {
         this.id = id;
     }
 
+    @SuppressWarnings("unchecked") // (B) this self-type idiom, erased at runtime
     protected B getThis() {
         return (B) this;
     }

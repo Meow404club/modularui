@@ -35,6 +35,7 @@ public class DynamicValue<T> implements IValue<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked") // getClass() runtime type of the supplied T value
     public Class<T> getValueType() {
         return (Class<T>) this.getter.get().getClass();
     }

@@ -86,6 +86,7 @@ public class CodecUtil {
         return chainedCodec(nullDecoder(), codec);
     }
 
+    @SuppressWarnings("varargs") // passing the (safe) Codec[] varargs array on to chainedDecoder
     @SafeVarargs
     public static <A> Codec<A> chainedCodec(Codec<A>... codecs) {
         return Codec.of(chainedEncoder(codecs), chainedDecoder(codecs));
@@ -174,6 +175,7 @@ public class CodecUtil {
         };
     }
 
+    @SuppressWarnings("unchecked") // API contract: callers pass Codec, erased cast is identity
     public static Decoder<Object> optionsDecoder(Decoder<?>... codecs) {
         if (codecs == null || codecs.length == 0) throw new NullPointerException();
         if (codecs.length == 1) return (Codec<Object>) codecs[0];
@@ -199,6 +201,7 @@ public class CodecUtil {
         return map.apply(res.get());
     }
 
+    @SuppressWarnings("varargs") // passing the (safe) Decoder[] varargs array on to chainedDecoder
     @SafeVarargs
     public static <A> Codec<A> codecOf(Encoder<A> encoder, Decoder<A>... decoder) {
         return Codec.of(encoder, chainedDecoder(decoder));

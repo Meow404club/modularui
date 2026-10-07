@@ -31,6 +31,7 @@ public interface ITreeNode<T extends ITreeNode<T>> {
         return true;
     }
 
+    @SuppressWarnings("unchecked") // (T) this self-type idiom, erased at runtime
     default boolean visitAllChildrenBFS(Predicate<T> visitor) {
         //? if neoforge {
         ObjectList<T> parents = new ObjectArrayList<>();

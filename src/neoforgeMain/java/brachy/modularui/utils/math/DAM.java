@@ -349,7 +349,7 @@ public class DAM {
             y += coeff[0];
             if (coeff.length == 2) return y + x * coeff[1];
             for (int i = 1; i < coeff.length; i++) {
-                y += (double) (Math.pow(x, i) * coeff[i]);
+                y += Math.pow(x, i) * coeff[i];
             }
             return y;
         }, res);
@@ -387,7 +387,7 @@ public class DAM {
     }
 
     public static double geometricMean(double[] src) {
-        return (double) Math.pow(product(src), 1f / src.length);
+        return Math.pow(product(src), 1f / src.length);
     }
 
     public static double[] concat(double[] a, double[] b) {

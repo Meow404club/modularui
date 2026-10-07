@@ -61,6 +61,7 @@ public class AbstractParentWidget<I extends IWidget, W extends AbstractParentWid
     }
 
     @Override
+    @SuppressWarnings("unchecked") // widget tree is typed I at this node, erased downcast
     public void visitTransformChildren(UnaryOperator<IWidget> op) {
         visitTransformTypedChildren(child -> (I) op.apply(child));
     }

@@ -23,6 +23,7 @@ public record OpenGuiPacket<T extends GuiData>(int windowId, int networkId, UIFa
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenGuiPacket<?>> CODEC = StreamCodec
             .ofMember(OpenGuiPacket::encode, OpenGuiPacket::decode);
 
+    @SuppressWarnings("unchecked") // factory registry is id-keyed and erased, T bound by sender
     public static <T extends GuiData> OpenGuiPacket<T> decode(RegistryFriendlyByteBuf buf) {
         int windowId = VarInt.read(buf);
         int networkId = VarInt.read(buf);

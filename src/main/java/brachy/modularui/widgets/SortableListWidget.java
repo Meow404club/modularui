@@ -192,6 +192,7 @@ public class SortableListWidget<T> extends ListValueWidget<T, SortableListWidget
         }
 
         @Override
+        @SuppressWarnings("unchecked") // wildcard instanceof pattern, listWidget is this list's item type
         public void onInit() {
             super.onInit();
             if (getParent() instanceof SortableListWidget<?> sortableListWidget) {

@@ -509,6 +509,7 @@ public class TreeUtil {
             };
         }
 
+        @SuppressWarnings("varargs") // passing the (safe) NodeInfo[] varargs array on to of(String, NodeInfo<T>...)
         @SafeVarargs
         static <T extends ITreeNode<T>> NodeInfo<T> of(NodeInfo<T>... infos) {
             return of(" | ", infos);

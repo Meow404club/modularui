@@ -20,6 +20,7 @@ public class ConstValue<T> implements IValue<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked") // getClass() runtime type of the stored T value
     public Class<T> getValueType() {
         return (Class<T>) value.getClass();
     }

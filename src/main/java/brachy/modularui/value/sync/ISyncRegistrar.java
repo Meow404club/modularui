@@ -88,6 +88,7 @@ public interface ISyncRegistrar<S extends ISyncRegistrar<S>> {
         return bindPlayerInventory(player, (inv, i) -> ModularSlot.playerSlot(inv, i, player));
     }
 
+    @SuppressWarnings("unchecked") // (S) this self-type idiom, erased at runtime
     default S bindPlayerInventory(Player player, @NotNull PanelSyncManager.SlotFunction slotFunction) {
         if (getSlotGroup(PlayerSlotGroup.NAME) != null) {
             throw new IllegalStateException("The player slot group is already registered!");

@@ -97,6 +97,7 @@ public class MutableSingletonList<T> implements List<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked") // canonical Arrays.copyOf(T1[]) fill idiom, same as ArrayList
     public @NotNull <T1> T1 @NotNull [] toArray(@NotNull T1 @NotNull [] a) {
         if (!this.hasValue) return a;
         if (a.length == 0) a = Arrays.copyOf(a, 1);
@@ -137,11 +138,11 @@ public class MutableSingletonList<T> implements List<T> {
     @Override
     public boolean addAll(@NotNull Collection<? extends T> c) {
         if (this.hasValue || c.isEmpty()) return false;
-        if (c instanceof List<?> l) {
+        if (c instanceof List<? extends T> l) {
             //? if neoforge {
-            add((T) l.getFirst());
+            add(l.getFirst());
             //?} else {
-            /*            add((T) l.get(0));
+            /*            add(l.get(0));
             *///?}
         } else {
             add(c.iterator().next());

@@ -26,6 +26,7 @@ public abstract class AbstractGenericSyncValue<B extends ByteBuf, T, S extends A
     private final Consumer<T> setter;
     private T cache;
 
+    @SuppressWarnings("unchecked") // getClass() runtime type of the non-null cached T value
     protected AbstractGenericSyncValue(Class<T> type, Supplier<T> getter, Consumer<T> setter) {
         this.getter = Objects.requireNonNull(getter);
         this.setter = setter;
@@ -40,6 +41,7 @@ public abstract class AbstractGenericSyncValue<B extends ByteBuf, T, S extends A
     }
 
     @Contract("_, null, _, null, _ -> fail")
+    @SuppressWarnings("unchecked") // getClass() runtime type of the non-null cached T value
     protected AbstractGenericSyncValue(Class<T> type, @Nullable Supplier<T> clientGetter,
                                        @Nullable Consumer<T> clientSetter,
                                        @Nullable Supplier<T> serverGetter, @Nullable Consumer<T> serverSetter) {
