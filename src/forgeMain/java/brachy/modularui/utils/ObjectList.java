@@ -83,6 +83,9 @@ public interface ObjectList<V> extends it.unimi.dsi.fastutil.objects.ObjectList<
 
     class ObjectArrayList<V> extends it.unimi.dsi.fastutil.objects.ObjectArrayList<V> implements ObjectList<V> {
 
+        // serialver-computed (JDK 17, pinned to the implicit UID this class already deserializes with)
+        private static final long serialVersionUID = 4426994276112212303L;
+
         public ObjectArrayList(int capacity) {
             super(capacity);
         }

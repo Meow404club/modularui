@@ -29,6 +29,9 @@ public interface IMathValue {
 
     class EvaluateException extends RuntimeException {
 
+        // serialver-computed (JDK 21, pinned to the implicit UID this class already deserializes with)
+        private static final long serialVersionUID = 8494899373406273089L;
+
         public EvaluateException(String message) {
             super(message);
         }
