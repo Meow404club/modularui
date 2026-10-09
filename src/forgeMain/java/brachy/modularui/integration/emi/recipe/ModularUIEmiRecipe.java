@@ -181,7 +181,7 @@ public abstract class ModularUIEmiRecipe implements EmiRecipe {
         useScreenCacheForNextWidgetQuery = false;
     }
 
-    public static class UIWrapperWidget extends Widget {
+    public static class UIWrapperWidget extends Widget implements EmiInteractionSink {
 
         private final ModularScreen screen;
 
@@ -234,14 +234,17 @@ public abstract class ModularUIEmiRecipe implements EmiRecipe {
             return this.screen.keyPressed(keyCode, scanCode, modifiers);
         }
 
+        @Override
         public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
             return this.screen.mouseScrolled(delta);
         }
 
+        @Override
         public boolean mouseDragged(int button, double dragX, double dragY) {
             return this.screen.mouseDragged(button, dragX, dragY);
         }
 
+        @Override
         public boolean mouseReleased(int button) {
             return this.screen.mouseReleased(button);
         }

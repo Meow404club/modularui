@@ -446,3 +446,23 @@ RL ctor→平台工厂（parse/fromNamespaceAndPath）为 forge backport 1:1 委
   isFluidEqual×3）、PanelSyncManager 裸返回值 rawtypes×2（公开 API 面
   收窄有下游源码兼容风险）、try/overrides/overloads/fallthrough 各×2
   （修复即行为变更）。
+## §8 增量偏离逐卡落账（原 §7，2026-10-09 与 §7 lint sweep 双演进合并时改号避撞）（GT6 移植卡追加；每卡一小节，倒序在上）
+
+### 2026-10-08 mattree-emi-panzoom——EMI 事件缝门控扩接口
+
+- **新增** `brachy/modularui/integration/emi/recipe/EmiInteractionSink.java`（本仓原创，
+  非 upstream 文件；`//?` 双腿 scroll 签名分叉：neoforge 双轴 scrollX/scrollY、forge 单轴
+  amount，与 RecipeScreenMixin 既有分叉同构）。缝契约：mixin 转发 scroll 带**组本地**坐标
+  （`mouseX - group.x()`，与 RecipeScreen.mouseClicked 的 widget bounds 门控同空间）；
+  drag 只带 button+delta；release 只带 button。
+- **修改** `brachy/modularui/core/mixins/emi/RecipeScreenMixin.java`（§2 在账文件）：
+  三 @Inject 的门控从 `instanceof ModularUIEmiRecipe.UIWrapperWidget` 扩为
+  `instanceof EmiInteractionSink`；scroll 转发改传组本地坐标（原传屏幕坐标，而
+  UIWrapperWidget 从不消费坐标——MUI 自身行为字节级不变）。
+- **修改** `brachy/modularui/integration/emi/recipe/ModularUIEmiRecipe.java`（§5 在账
+  leg-split 文件，双腿各自）：`UIWrapperWidget implements EmiInteractionSink` + 三缝方法
+  补 @Override——方法签名零改动，纯接口挂载。
+- 消费方：mdk `GT6MaterialTreeNavWidget`（GT6 材料树 EMI 页 nav 画布）implement 同接口
+  接入 pan/zoom 转发；门禁钉测 mdk `GT6MultiblockPreviewEmiInputTest`（旧
+  `ModularUIEmiRecipe$UIWrapperWidget` mixin 字节钉迁移为 `EmiInteractionSink` 门控钉，
+  迁移声明在该测试 javadoc）。

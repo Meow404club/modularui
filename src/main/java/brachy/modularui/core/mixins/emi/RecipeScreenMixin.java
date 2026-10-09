@@ -1,6 +1,6 @@
 package brachy.modularui.core.mixins.emi;
 
-import brachy.modularui.integration.emi.recipe.ModularUIEmiRecipe;
+import brachy.modularui.integration.emi.recipe.EmiInteractionSink;
 
 import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.screen.RecipeScreen;
@@ -23,15 +23,18 @@ public class RecipeScreenMixin {
     private void modularui$mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY, CallbackInfoReturnable<Boolean> cir) {
     //?} else {
     /*    private void mui$mouseScrolled(double mouseX, double mouseY, double amount, CallbackInfoReturnable<Boolean> cir) {
-    *///?}
+     *///?}
         for (WidgetGroup group : currentPage) {
             for (Widget widget : group.widgets) {
-                if (widget instanceof ModularUIEmiRecipe.UIWrapperWidget wrapperWidget) {
+                if (widget instanceof EmiInteractionSink sink) {
+                    // scroll hands GROUP-LOCAL coords (the same space RecipeScreen.mouseClicked
+                    // bounds-gates widgets in) so an implementer can gate against its own bounds;
+                    // UIWrapperWidget ignores them, so its behaviour is what it always was
                     //? if neoforge {
-                    if (wrapperWidget.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+                    if (sink.mouseScrolled(mouseX - group.x(), mouseY - group.y(), scrollX, scrollY)) {
                     //?} else {
-                    /*                    if (wrapperWidget.mouseScrolled(mouseX, mouseY, amount)) {
-                    *///?}
+                    /*                    if (sink.mouseScrolled(mouseX - group.x(), mouseY - group.y(), amount)) {
+                     *///?}
                         cir.setReturnValue(true);
                     }
                 }
@@ -44,11 +47,11 @@ public class RecipeScreenMixin {
     private void modularui$mouseReleased(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
     //?} else {
     /*    private void mui$mouseReleased(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-    *///?}
+     *///?}
         for (WidgetGroup group : currentPage) {
             for (Widget widget : group.widgets) {
-                if (widget instanceof ModularUIEmiRecipe.UIWrapperWidget wrapperWidget) {
-                    if (wrapperWidget.mouseReleased(button)) {
+                if (widget instanceof EmiInteractionSink sink) {
+                    if (sink.mouseReleased(button)) {
                         cir.setReturnValue(true);
                     }
                 }
@@ -61,11 +64,11 @@ public class RecipeScreenMixin {
     private void modularui$mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
     //?} else {
     /*    private void mui$mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
-    *///?}
+     *///?}
         for (WidgetGroup group : currentPage) {
             for (Widget widget : group.widgets) {
-                if (widget instanceof ModularUIEmiRecipe.UIWrapperWidget wrapperWidget) {
-                    if (wrapperWidget.mouseDragged(button, deltaX, deltaY)) {
+                if (widget instanceof EmiInteractionSink sink) {
+                    if (sink.mouseDragged(button, deltaX, deltaY)) {
                         cir.setReturnValue(true);
                     }
                 }

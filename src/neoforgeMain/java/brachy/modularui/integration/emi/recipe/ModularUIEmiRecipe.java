@@ -150,7 +150,7 @@ public abstract class ModularUIEmiRecipe implements EmiRecipe {
         widgets.add(new UIWrapperWidget(this));
     }
 
-    public static class UIWrapperWidget extends Widget {
+    public static class UIWrapperWidget extends Widget implements EmiInteractionSink {
 
         private final ModularUIEmiRecipe recipe;
 
@@ -200,14 +200,17 @@ public abstract class ModularUIEmiRecipe implements EmiRecipe {
             return SCREEN_CACHE.getUnchecked(this.recipe).keyPressed(keyCode, scanCode, modifiers);
         }
 
+        @Override
         public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
             return SCREEN_CACHE.getUnchecked(this.recipe).mouseScrolled(scrollX, scrollY);
         }
 
+        @Override
         public boolean mouseDragged(int button, double dragX, double dragY) {
             return SCREEN_CACHE.getUnchecked(this.recipe).mouseDragged(button, dragX, dragY);
         }
 
+        @Override
         public boolean mouseReleased(int button) {
             return SCREEN_CACHE.getUnchecked(this.recipe).mouseReleased(button);
         }
